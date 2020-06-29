@@ -210,7 +210,7 @@ else:
             data = pd.merge(titles, data, on="movieId")
             reviews = data.groupby("title")["rating"].agg(["count", "mean"]).reset_index().round(1)
             movies = pd.crosstab(data["userId"], data["title"], values=data["rating"], aggfunc="sum")
-            similarity = movies.corrwith(movies[userInput1], method="pearson") + movies.corrwith(movies[userInput2], method="pearson") + 
+            similarity = movies.corrwith(movies[userInput1], method="pearson") + movies.corrwith(movies[userInput2], method="pearson") + \
                          movies.corrwith(movies[userInput3], method="pearson")
             correlatedMovies = pd.DataFrame(similarity, columns=["correlation"])
             correlatedMovies = pd.merge(correlatedMovies, reviews, on="title")
