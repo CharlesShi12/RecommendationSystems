@@ -45,7 +45,7 @@ if (st.sidebar.checkbox("Check me for the Movie Recommendation System")):
 
                 # Filtering certain movies to produce accurate recommendations
                 output = correlatedMovies[(correlatedMovies["mean"] > 3.5) &
-                                          (correlatedMovies['count'] >= 100)].sort_values("correlation",
+                                          (correlatedMovies["count"] >= 100)].sort_values("correlation",
                                                                                           ascending=False)
                 output = output[
                     ((output.title != userInput1) & (output.title != userInput2) & (output.title != userInput3))]
@@ -161,14 +161,14 @@ else:
 
 
     # Streamlit widgets combined with Python algorithms
-    st.title('MUSIC RECOMMENDATION SYSTEM')
-    if (st.sidebar.checkbox('Show me how to find the URI of a Playlist')):
-        st.image('https://distrokid.zendesk.com/hc/article_attachments/360021233173/mceclip0.png')
+    st.title("MUSIC RECOMMENDATION SYSTEM")
+    if (st.sidebar.checkbox("Show me how to find Spotify's URI")):
+        st.image("https://distrokid.zendesk.com/hc/article_attachments/360021233173/mceclip0.png")
 
     # User Inputs/Data Gathering
-    goodplaylist = st.sidebar.text_input('Enter the URI of a Playlist You Like:')
+    goodplaylist = st.sidebar.text_input("Enter the URI of a Playlist You Like:")
     goodplaylist = goodplaylist[17:]
-    badplaylist = st.sidebar.text_input('Enter the URL of a Playlist You Dislike:')
+    badplaylist = st.sidebar.text_input("Enter the URL of a Playlist You Dislike:")
     badplaylist = badplaylist[17:]
     comparision = {"playlist": "Select a Playlist",
                    "spotify:playlist:6UeSakyzhiEt4NB3UAd6NQ": "Billboard Hot 100",
@@ -188,12 +188,12 @@ else:
                                       options=list(comparision.keys()), format_func=func)
     option = option[17:]
 
-    # User clicks the 'Recommend Songs!' button
-    if (st.sidebar.button('Recommend Songs!')):
-        with st.spinner('Generating your Track Recommendation Playlist...'):
+    # User clicks the "Recommend Songs!" button
+    if (st.sidebar.button("Recommend Songs!")):
+        with st.spinner("Generating your Track Recommendation Playlist..."):
             # User doesn't chose a playlist leaving it on the default "Select a Playlist" option
             if (option == "playlist"):
-                st.error('Please Choose a Playlist to Search Through')
+                st.error("Please Choose a Playlist to Search Through")
             else:
                 try:
                     playlist = create_good_bad_playlist(goodplaylist, badplaylist)
@@ -243,8 +243,8 @@ else:
                     # Returns the recommended songs in a readable format
                     for i in recommendations:
                         st.markdown("")
-                        st.markdown('**[' + i[1] + ']' + '(https://open.spotify.com/track/' + i[0] + ')**')
-                        st.markdown('_' + i[2] + '_')
+                        st.markdown("**[" + i[1] + "]" + "(https://open.spotify.com/track/" + i[0] + ")**")
+                        st.markdown("_" + i[2] + "_")
                         st.image(i[5], width=200)
                         st.markdown("")
 
