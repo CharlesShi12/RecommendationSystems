@@ -1,4 +1,4 @@
-# imports
+#IMPORTS
 import streamlit as st
 import spotipy
 import spotipy.util as util
