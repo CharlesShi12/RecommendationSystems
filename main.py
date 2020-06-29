@@ -179,8 +179,8 @@ else:
                    "spotify:playlist:37i9dQZF1DX4WYpdgoIcn6": "Chill Hits",
                    "spotify:playlist:37i9dQZF1DX8tZsk68tuDw": "Dance Rising",
                    "spotify:playlist:37i9dQZF1DX2Nc3B70tvx0": "Ultimate Indie",
-                   "spotify:playlist:37i9dQZF1DWUVpAXiEPK8P": "Power Workout",
-                   "spotify:playlist:37i9dQZF1DX83I5je4W4rP": "Beach Vibes"}
+                   "spotify:playlist:37i9dQZF1DX83I5je4W4rP": "Beach Vibes",
+                   "spotify:playlist:37i9dQZF1DWT5MrZnPU1zD": "Hip Hop Controller"}
     if (st.sidebar.checkbox("Do you want to use your own playlist? (Check the Box for Yes)")):
         option = st.sidebar.text_input('Enter the URI of Playlist You Want to Compare:')
     else:
@@ -253,4 +253,4 @@ else:
                         st.error(
                             "Unfortunately, no songs were recommended from this playlist. Try again with different playlist!")
                 except:
-                    st.error("Sorry! Please try again or with a different playlist.")
+                    st.error("Sorry! Please try again or try with a different playlist.")
