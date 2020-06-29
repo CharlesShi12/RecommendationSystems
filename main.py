@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn import svm
 from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB
-from sklearn.ensemble import RandomForestClassifier
+from sklearn import neighbors
 from sklearn.metrics import accuracy_score
 import pandas as pd
 
@@ -138,11 +138,11 @@ else:
     # Returns an array of recommended songs using the most accurate machine learning model
     def song_recommendations(playlist):
         recommendations = []
-        if ((naive_score > SVM_score) and (naive_score > forest_score)):
+        if (naive_score > SVM_score) and (naive_score > forest_score):
             method = GaussianNB()
             method.fit(x_train, y_train)
-        elif ((forest_score > SVM_score) and (forest_score > naive_score)):
-            method = RandomForestClassifier(n_estimators=50)
+        elif (neighbors_score > SVM_score) and (neighbors_score > naive_score):
+            method = neighbors.KNeighborsClassifier()
             method.fit(x_train, y_train)
         else:
             method = svm.SVC()
@@ -180,15 +180,16 @@ else:
                    "spotify:playlist:37i9dQZF1DX4WYpdgoIcn6": "Chill Hits",
                    "spotify:playlist:37i9dQZF1DX8tZsk68tuDw": "Dance Rising",
                    "spotify:playlist:37i9dQZF1DX2Nc3B70tvx0": "Ultimate Indie",
-                   "spotify:playlist:37i9dQZF1DWUVpAXiEPK8P": "Power Workout"}
-    if (st.sidebar.checkbox("Do you want to use your own playlist? (Check the Box for Yes!)")):
+                   "spotify:playlist:37i9dQZF1DWUVpAXiEPK8P": "Power Workout",
+                   "spotify:playlist:37i9dQZF1DWWEJlAGA9gs0": "Classical Essentials"}
+    if (st.sidebar.checkbox("Do you want to use your own playlist? (Check the Box for Yes)")):
         option = st.sidebar.text_input('Enter the URI of Playlist You Want to Compare:')
     else:
         option = st.sidebar.selectbox("Select a Playlist for Our Algorithm to Search Through",
                                       options=list(comparision.keys()), format_func=func)
     option = option[17:]
 
-    # User clicks the 'Recommend!' button
+    # User clicks the 'Recommend Songs!' button
     if (st.sidebar.button('Recommend Songs!')):
         with st.spinner('Generating your Track Recommendation Playlist...'):
             # User doesn't chose a playlist leaving it on the default "Select a Playlist" option
@@ -224,11 +225,11 @@ else:
                     bayes_prediction = naive_bayes.predict(x_test)
                     naive_score = accuracy_score(y_test, bayes_prediction)
 
-                    # Random Forest Classification Model
-                    random_forest = RandomForestClassifier(n_estimators=50)
-                    random_forest.fit(x_train, y_train)
-                    forest_prediction = random_forest.predict(x_test)
-                    forest_score = accuracy_score(y_test, forest_prediction)
+                    # K Nearest Neighbors Classification Model
+                    nearest_neighbors = neighbors.KNeighborsClassifier()
+                    nearest_neighbors.fit(x_train, y_train)
+                    neighbors_prediction = nearest_neighbors.predict(x_test)
+                    neighbors_score = accuracy_score(y_test, neighbors_prediction)
 
                     # Creating the recommended songs
                     compare = create_playlist(option)
