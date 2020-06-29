@@ -162,7 +162,7 @@ else:
 
 
     # Streamlit widgets combined with Python algorithms
-    st.title('SONG RECOMMENDATION SYSTEM')
+    st.title('MUSIC RECOMMENDATION SYSTEM')
     if (st.sidebar.checkbox('Show me how to find the URI of a Playlist')):
         st.image('https://distrokid.zendesk.com/hc/article_attachments/360021233173/mceclip0.png')
 
