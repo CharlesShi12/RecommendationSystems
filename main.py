@@ -94,7 +94,7 @@ else:
             track_feature["url"] = information["album"]["images"][0]["url"]
             return track_feature
         else:
-            return null
+            pass
 
 
     # Creates a playlist DataFrame with liked songs (labeled as 1) and disliked songs (labeled as 0) in the "favorite" column
