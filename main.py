@@ -1,4 +1,4 @@
-#IMPORTS
+# IMPORTS
 import streamlit as st
 import spotipy
 import spotipy.util as util
@@ -12,44 +12,46 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 import pandas as pd
 
-#Prompt users to select whether they want a movie or track recommendation system
-if(st.sidebar.checkbox("Check me for the Movie Recommendation System")):
-    
-    #User selects the checkbox to indicate that he/she wants the movie recommendation system
+# Prompt users to select whether they want a movie or track recommendation system
+if (st.sidebar.checkbox("Check me for the Movie Recommendation System")):
+
+    # User selects the checkbox to indicate that he/she wants the movie recommendation system
     st.title("MOVIE RECOMMENDATION SYSTEM")
-    
-    #User inputs three of their most favorite movies 
+
+    # User inputs three of their most favorite movies
     userInput1 = st.sidebar.text_input("Enter the First Movie You Like (ex. Matrix, The (1999)):")
     userInput2 = st.sidebar.text_input("Enter the Second Movie You Like:")
     userInput3 = st.sidebar.text_input("Enter the Third Movie You Like:")
-    
-    #User presses "Recommend Movies!" button
+
+    # User presses "Recommend Movies!" button
     if (st.sidebar.button("Recommend Movies!")):
-        with st.spinner("Generating your Movie Recommendation List..."):
+        with st.spinner("Generating your Movies Recommendation List..."):
             try:
-                #Read the datasets gathered from MovieLens
+                # Read the datasets gathered from MovieLens
                 titles = pd.read_csv("movies.csv")
                 data = pd.read_csv("ratings.csv")
-                
-                #Data processing
+
+                # Data processing
                 data = pd.merge(titles, data, on="movieId")
                 reviews = data.groupby("title")["rating"].agg(["count", "mean"]).reset_index().round(1)
                 movies = pd.crosstab(data["userId"], data["title"], values=data["rating"], aggfunc="sum")
-                
-                #Computing Pearson Correlation Coeffiecients to find the most similiar movies to the user input
-                similarity = movies.corrwith(movies[userInput1], method="pearson") + movies.corrwith(movies[userInput2], method="pearson") + \
+
+                # Computing Pearson Correlation Coeffiecients to find the most similiar movies to the user input
+                similarity = movies.corrwith(movies[userInput1], method="pearson") + movies.corrwith(movies[userInput2],
+                                                                                                     method="pearson") + \
                              movies.corrwith(movies[userInput3], method="pearson")
                 correlatedMovies = pd.DataFrame(similarity, columns=["correlation"])
                 correlatedMovies = pd.merge(correlatedMovies, reviews, on="title")
                 correlatedMovies = pd.merge(correlatedMovies, titles, on="title")
-                
-                #Filtering certain movies to produce accurate recommendations
-                output = correlatedMovies[(correlatedMovies["mean"] > 3.5) & 
-                                          (correlatedMovies['count'] >= 100)].sort_values("correlation", ascending=False)
+
+                # Filtering certain movies to produce accurate recommendations
+                output = correlatedMovies[(correlatedMovies["mean"] > 3.5) &
+                                          (correlatedMovies['count'] >= 100)].sort_values("correlation",
+                                                                                          ascending=False)
                 output = output[
                     ((output.title != userInput1) & (output.title != userInput2) & (output.title != userInput3))]
-                
-                #Outputing the recommended movies in a user friendly format
+
+                # Outputing the recommended movies in a user friendly format
                 for index in range(0, 25):
                     st.markdown("")
                     st.markdown("#" + str(index + 1) + ". " + output.iloc[index]['title'])
@@ -57,10 +59,10 @@ if(st.sidebar.checkbox("Check me for the Movie Recommendation System")):
                     st.markdown("")
             except:
                 st.error("Uh oh, please try again! Your input format or movie release date may be incorrect.")
-                
-#User doesn't select the checkbox indicating that he/she wants the track recommendation system
+
+# User doesn't select the checkbox indicating that he/she wants the track recommendation system
 else:
-   
+
     # Acessing Spotipy (a Spotify Library) to gather our data
     USERNAME = 'charles_shi12'
     SPOTIPY_CLIENT_ID = '80063f66798948fdba77036647d788d1'
@@ -70,16 +72,16 @@ else:
     token = util.prompt_for_user_token(USERNAME, SCOPE, SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, REDIRECT_URI)
     credentials = SpotifyClientCredentials(client_id=SPOTIPY_CLIENT_ID, client_secret=SPOTIPY_CLIENT_SECRET)
     spty = spotipy.Spotify(client_credentials_manager=credentials)
-    
-    
-    #METHODS
+
+
+    # METHODS
     # Collects a song's information
     def get_data(song):
         if ((song["track"] != None)):
             track_feature = {}
-            #Track's metainformation
+            # Track's metainformation
             information = spty.track(song["track"]["id"])
-            #Track's features
+            # Track's features
             features = spty.audio_features(song["track"]["id"])
             for meta in ["id", "name"]:
                 track_feature[meta] = song["track"][meta]
@@ -94,6 +96,7 @@ else:
             return track_feature
         else:
             pass
+
 
     # Creates a playlist DataFrame with liked songs (labeled as 1) and disliked songs (labeled as 0) in the "favorite" column
     def create_good_bad_playlist(goodPlaylist, badPlaylist):
@@ -116,6 +119,7 @@ else:
         playlist_dataFrame = playlist_dataFrame.dropna(axis=0)
         return playlist_dataFrame
 
+
     # Creates a regular playlist DataFrame with no "favorite" column
     def create_playlist(playlist):
         total = spty.user_playlist_tracks("spotify", playlist)["items"]
@@ -129,6 +133,7 @@ else:
             index += 1
         playlist_dataFrame = playlist_dataFrame.dropna(axis=0)
         return playlist_dataFrame
+
 
     # Returns an array of recommended songs using the most accurate machine learning model
     def song_recommendations(playlist):
@@ -150,13 +155,14 @@ else:
                 recommendations.append(playlist.iloc[index][:6].values)
         return recommendations
 
+
     # Returns the URI of the user's selected playlist
     def func(input):
         return comparision[input]
 
-    
+
     # Streamlit widgets combined with Python algorithms
-    st.title('SPOTIFY RECOMMENDATION SYSTEM')
+    st.title('TRACK RECOMMENDATION SYSTEM')
     if (st.sidebar.checkbox('Show me how to find the URI of a Playlist')):
         st.image('https://distrokid.zendesk.com/hc/article_attachments/360021233173/mceclip0.png')
 
@@ -186,17 +192,18 @@ else:
     # User clicks the 'Recommend!' button
     if (st.sidebar.button('Recommend Songs!')):
         with st.spinner('Generating your Track Recommendation Playlist...'):
-            #User doesn't chose a playlist leaving it on the default "Select a Playlist" option
+            # User doesn't chose a playlist leaving it on the default "Select a Playlist" option
             if (option == "playlist"):
                 st.error('Please Choose a Playlist to Search Through')
             else:
                 try:
                     playlist = create_good_bad_playlist(goodplaylist, badplaylist)
-                    sorted_playlist = pd.DataFrame(playlist, columns=["id", "name", "artist", "popularity", "album", "url",
-                                                                      "danceability", "energy", "key", "loudness",
-                                                                      "mode", "speechiness", "acousticness",
-                                                                      "instrumentalness",
-                                                                      "liveness", "valence", "tempo", "favorite"])
+                    sorted_playlist = pd.DataFrame(playlist,
+                                                   columns=["id", "name", "artist", "popularity", "album", "url",
+                                                            "danceability", "energy", "key", "loudness",
+                                                            "mode", "speechiness", "acousticness",
+                                                            "instrumentalness",
+                                                            "liveness", "valence", "tempo", "favorite"])
 
                     # Training algorithms based on the user's inputted playlists
                     x = sorted_playlist.drop(["id", "name", "artist", "popularity", "album", "url", "favorite"], axis=1)
@@ -224,7 +231,7 @@ else:
                     forest_prediction = random_forest.predict(x_test)
                     forest_score = accuracy_score(y_test, forest_prediction)
 
-                    #Creating the recommended songs
+                    # Creating the recommended songs
                     compare = create_playlist(option)
                     sorted_compare = pd.DataFrame(compare,
                                                   columns=["id", "name", "artist", "popularity", "album", "url",
@@ -240,10 +247,9 @@ else:
                         st.markdown('**[' + i[1] + ']' + '(https://open.spotify.com/track/' + i[0] + ')**')
                         st.markdown('_' + i[2] + '_')
                         st.image(i[5], width=200)
-                        count += 1
                         st.markdown("")
-                        
-                    #No songs were recommended from this playlist
+
+                    # No songs were recommended from this playlist
                     if (len(recommendations) == 0):
                         st.error(
                             "Unfortunately, no songs were recommended from this playlist. Try again with different playlist!")
