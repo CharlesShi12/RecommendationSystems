@@ -108,94 +108,119 @@ def song_recommendations(playlist):
 def func(input):
     return comparision[input]
 
+if(st.sidebar.checkbox("Check me for the Track Recommendation System")):
+    # Streamlit widgets combined with Python algorithms
+    st.title("TRACK RECOMMENDATION SYSTEM")
+    if (st.sidebar.checkbox("Show me how to find the URI of a Playlist")):
+        st.image("https://distrokid.zendesk.com/hc/article_attachments/360021233173/mceclip0.png")
 
-# Streamlit widgets combined with Python algorithms
-st.title('SPOTIFY RECOMMENDATION SYSTEM')
-if (st.sidebar.checkbox('Show me how to find the URI of a Playlist')):
-    st.image('https://distrokid.zendesk.com/hc/article_attachments/360021233173/mceclip0.png')
+    # User Inputs
+    goodplaylist = st.sidebar.text_input("Enter the URI of a Playlist You Like:")
+    goodplaylist = goodplaylist[17:]
+    badplaylist = st.sidebar.text_input("Enter the URL of a Playlist You Dislike:")
+    badplaylist = badplaylist[17:]
+    comparision = {"playlist": "Select a Playlist",
+                   "spotify:playlist:6UeSakyzhiEt4NB3UAd6NQ": "Billboard Hot 100",
+                   "spotify:playlist:37i9dQZEVXbMDoHDwVN2tF": "Global Top 50",
+                   "spotify:playlist:37i9dQZEVXbLiRSasKsNU9": "Global Viral 50",
+                   "spotify:playlist:37i9dQZEVXbKuaTI1Z1Afx": "United States Viral 50",
+                   "spotify:playlist:37i9dQZF1DX1lVhptIYRda": "Hot Country",
+                   "spotify:playlist:37i9dQZF1DX4WYpdgoIcn6": "Chill Hits",
+                   "spotify:playlist:37i9dQZF1DX8tZsk68tuDw": "Dance Rising",
+                   "spotify:playlist:37i9dQZF1DX2Nc3B70tvx0": "Ultimate Indie",
+                   "spotify:playlist:37i9dQZF1DWUVpAXiEPK8P": "Power Workout",
+                   "spotify:playlist:37i9dQZF1DWWEJlAGA9gs0": "Classical Essentials"}
+    if (st.sidebar.checkbox("Do you want to use your own playlist? (Check the Box for Yes!)")):
+        option = st.sidebar.text_input('Enter the URI of Playlist You Want to Compare:')
+    else:
+        option = st.sidebar.selectbox("Select a Playlist for Our Algorithm to Search Through",
+                                      options=list(comparision.keys()), format_func=func)
+    option = option[17:]
 
-# User Inputs
-goodplaylist = st.sidebar.text_input('Enter the URI of a Playlist You Like:')
-goodplaylist = goodplaylist[17:]
-badplaylist = st.sidebar.text_input('Enter the URL of a Playlist You Dislike:')
-badplaylist = badplaylist[17:]
-comparision = {"playlist": "Select a Playlist", 
-               "spotify:playlist:6UeSakyzhiEt4NB3UAd6NQ": "Billboard Hot 100",
-               "spotify:playlist:37i9dQZEVXbMDoHDwVN2tF": "Global Top 50",
-               "spotify:playlist:37i9dQZEVXbLiRSasKsNU9": "Global Viral 50",
-               "spotify:playlist:37i9dQZEVXbKuaTI1Z1Afx": "United States Viral 50",
-               "spotify:playlist:37i9dQZF1DX1lVhptIYRda": "Hot Country",
-               "spotify:playlist:37i9dQZF1DX4WYpdgoIcn6": "Chill Hits",
-               "spotify:playlist:37i9dQZF1DX8tZsk68tuDw": "Dance Rising",
-               "spotify:playlist:37i9dQZF1DX2Nc3B70tvx0": "Ultimate Indie",
-               "spotify:playlist:37i9dQZF1DWUVpAXiEPK8P": "Power Workout"}
-if (st.sidebar.checkbox("Do you want to use your own playlist? (Check the Box for Yes!)")):
-    option = st.sidebar.text_input('Enter the URI of Playlist You Want to Compare:')
+    # User clicks the "Recommend!" button
+    if (st.sidebar.button("Recommend!")):
+        with st.spinner("Generating your Recommendation Playlist..."):
+            if (option == "playlist"):
+                st.error("Please Choose a Playlist to Search Through")
+            else:
+                try:
+                    playlist = create_good_bad_playlist(goodplaylist, badplaylist)
+                    sorted_playlist = pd.DataFrame(playlist, columns=["id", "name", "artist", "popularity", "album", "url",
+                                                                      "danceability", "energy", "key", "loudness",
+                                                                      "mode", "speechiness", "acousticness",
+                                                                      "instrumentalness",
+                                                                      "liveness", "valence", "tempo", "favorite"])
+
+                    # Training algorithms based on the user's inputted playlists
+                    x = sorted_playlist.drop(["id", "name", "artist", "popularity", "album", "url", "favorite"], axis=1)
+                    y = sorted_playlist["favorite"]
+                    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=.15, random_state=100)
+                    scaler = StandardScaler()
+                    x_train = scaler.fit_transform(x_train)
+                    x_test = scaler.transform(x_test)
+
+                    # Support Vector Classification Model
+                    support_vector = svm.SVC()
+                    support_vector.fit(x_train, y_train)
+                    vector_prediction = support_vector.predict(x_test)
+                    SVM_score = accuracy_score(y_test, vector_prediction)
+
+                    # Naive Bayes Classification Model
+                    naive_bayes = GaussianNB()
+                    naive_bayes.fit(x_train, y_train)
+                    bayes_prediction = naive_bayes.predict(x_test)
+                    naive_score = accuracy_score(y_test, bayes_prediction)
+
+                    # Random Forest Classification Model
+                    random_forest = RandomForestClassifier(n_estimators=50)
+                    random_forest.fit(x_train, y_train)
+                    forest_prediction = random_forest.predict(x_test)
+                    forest_score = accuracy_score(y_test, forest_prediction)
+
+                    compare = create_playlist(option)
+                    sorted_compare = pd.DataFrame(compare,
+                                                  columns=["id", "name", "artist", "popularity", "album", "url",
+                                                           "danceability",
+                                                           "energy", "key", "loudness", "mode", "speechiness",
+                                                           "acousticness",
+                                                           "instrumentalness", "liveness", "valence", "tempo"])
+                    recommendations = song_recommendations(sorted_compare)
+
+                    # Returns the recommended songs in a readable format
+                    for i in recommendations:
+                        st.markdown("")
+                        st.markdown("**[" + i[1] + "]" + "(https://open.spotify.com/track/" + i[0] + ")**")
+                        st.markdown("_" + i[2] + "_")
+                        st.image(i[5], width=200)
+                        st.markdown("")
+                    if (recommendations.length == 0):
+                        st.error(
+                            "Unfortunately, no songs were recommended from this playlist. Try again with different playlist!")
+                except:
+                    st.error("Sorry! Please try again or with a different playlist.")
 else:
-    option = st.sidebar.selectbox("Select a Playlist for Our Algorithm to Search Through",
-                                  options=list(comparision.keys()), format_func=func)
-option = option[17:]
-
-# User clicks the 'Recommend!' button
-if (st.sidebar.button('Recommend!')):
-    with st.spinner('Generating your Recommendation Playlist...'):
-        if (option == "playlist"):
-            st.error('Please Choose a Playlist to Search Through')
-        else:
-            try:
-                playlist = create_good_bad_playlist(goodplaylist, badplaylist)
-                sorted_playlist = pd.DataFrame(playlist, columns=["id", "name", "artist", "popularity", "album", "url",
-                                                                  "danceability", "energy", "key", "loudness",
-                                                                  "mode", "speechiness", "acousticness",
-                                                                  "instrumentalness",
-                                                                  "liveness", "valence", "tempo", "favorite"])
-
-                # Training algorithms based on the user's inputted playlists
-                x = sorted_playlist.drop(["id", "name", "artist", "popularity", "album", "url", "favorite"], axis=1)
-                y = sorted_playlist["favorite"]
-                x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=.15, random_state=100)
-                scaler = StandardScaler()
-                x_train = scaler.fit_transform(x_train)
-                x_test = scaler.transform(x_test)
-
-                # Support Vector Classification Model
-                support_vector = svm.SVC()
-                support_vector.fit(x_train, y_train)
-                vector_prediction = support_vector.predict(x_test)
-                SVM_score = accuracy_score(y_test, vector_prediction)
-
-                # Naive Bayes Classification Model
-                naive_bayes = GaussianNB()
-                naive_bayes.fit(x_train, y_train)
-                bayes_prediction = naive_bayes.predict(x_test)
-                naive_score = accuracy_score(y_test, bayes_prediction)
-
-                # Random Forest Classification Model
-                random_forest = RandomForestClassifier(n_estimators=50)
-                random_forest.fit(x_train, y_train)
-                forest_prediction = random_forest.predict(x_test)
-                forest_score = accuracy_score(y_test, forest_prediction)
-
-                compare = create_playlist(option)
-                sorted_compare = pd.DataFrame(compare,
-                                              columns=["id", "name", "artist", "popularity", "album", "url",
-                                                       "danceability",
-                                                       "energy", "key", "loudness", "mode", "speechiness",
-                                                       "acousticness",
-                                                       "instrumentalness", "liveness", "valence", "tempo"])
-                recommendations = song_recommendations(sorted_compare)
-
-                # Returns the recommended songs in a readable format
-                count = 0
-                for i in recommendations:
-                    st.markdown("")
-                    st.markdown('**[' + i[1] + ']' + '(https://open.spotify.com/track/' + i[0] + ')**')
-                    st.markdown('_' + i[2] + '_')
-                    st.image(i[5], width=200)
-                    count += 1
-                    st.markdown("")
-                if (count == 0):
-                    st.error(
-                        "Unfortunately, no songs were recommended from this playlist. Try again with different playlist!")
-            except:
-                st.error("Sorry! Please try again or with a different playlist.")
+    st.title("MOVIE RECOMMENDATION SYSTEM")
+    userInput1 = st.sidebar.text_input("Enter the First Movie You Like (ex. Matrix, The (1999)):")
+    userInput2 = st.sidebar.text_input("Enter the Second Movie You Like:")
+    userInput3 = st.sidebar.text_input("Enter the Third Movie You Like:")
+    if (st.sidebar.button("Recommend!")):
+        with st.spinner("Generating your Recommendation List..."):
+            titles = pd.read_csv("movies.csv")
+            data = pd.read_csv("ratings.csv")
+            data = pd.merge(titles, data, on="movieId")
+            reviews = data.groupby("title")["rating"].agg(["count", "mean"]).reset_index().round(1)
+            movies = pd.crosstab(data["userId"], data["title"], values=data["rating"], aggfunc="sum")
+            similarity = movies.corrwith(movies[userInput1], method="pearson") + movies.corrwith(movies[userInput2], method="pearson") + 
+                         movies.corrwith(movies[userInput3], method="pearson")
+            correlatedMovies = pd.DataFrame(similarity, columns=["correlation"])
+            correlatedMovies = pd.merge(correlatedMovies, reviews, on="title")
+            correlatedMovies = pd.merge(correlatedMovies, titles, on="title")
+            output = correlatedMovies[
+                (correlatedMovies["mean"] > 3.5) & (correlatedMovies['count'] >= 100)].sort_values("correlation", ascending=False)
+            output = output[
+                ((output.title != userInput1) & (output.title != userInput2) & (output.title != userInput3))]
+            for index in range(0, 25):
+                st.markdown("")
+                st.markdown("#" + str(index + 1) + ". " + output.iloc[index]['title'])
+                st.markdown(output.iloc[index]["genres"])
+                st.markdown("")
