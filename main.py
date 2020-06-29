@@ -180,8 +180,7 @@ else:
                    "spotify:playlist:37i9dQZF1DX4WYpdgoIcn6": "Chill Hits",
                    "spotify:playlist:37i9dQZF1DX8tZsk68tuDw": "Dance Rising",
                    "spotify:playlist:37i9dQZF1DX2Nc3B70tvx0": "Ultimate Indie",
-                   "spotify:playlist:37i9dQZF1DWUVpAXiEPK8P": "Power Workout",
-                   "spotify:playlist:37i9dQZF1DWWEJlAGA9gs0": "Classical Essentials"}
+                   "spotify:playlist:37i9dQZF1DWUVpAXiEPK8P": "Power Workout"}
     if (st.sidebar.checkbox("Do you want to use your own playlist? (Check the Box for Yes!)")):
         option = st.sidebar.text_input('Enter the URI of Playlist You Want to Compare:')
     else:
