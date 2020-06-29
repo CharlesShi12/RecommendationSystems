@@ -15,7 +15,7 @@ import pandas as pd
 # Prompt users to select whether they want a movie or track recommendation system
 if (st.sidebar.checkbox("Check me for the Movie Recommendation System")):
 
-    # User selects the checkbox to indicate that he/she wants the movie recommendation system
+    # User selects the checkbox to indicate that he or she wants the movie recommendation system
     st.title("MOVIE RECOMMENDATION SYSTEM")
 
     # User inputs three of their most favorite movies
@@ -36,10 +36,9 @@ if (st.sidebar.checkbox("Check me for the Movie Recommendation System")):
                 reviews = data.groupby("title")["rating"].agg(["count", "mean"]).reset_index().round(1)
                 movies = pd.crosstab(data["userId"], data["title"], values=data["rating"], aggfunc="sum")
 
-                # Computing Pearson Correlation Coeffiecients to find the most similiar movies to the user input
+                # Computing Pearson Correlation Coefficients to find the most similar movies to the user movies input
                 similarity = movies.corrwith(movies[userInput1], method="pearson") + movies.corrwith(movies[userInput2],
-                                                                                                     method="pearson") + \
-                             movies.corrwith(movies[userInput3], method="pearson")
+                                             method="pearson") + movies.corrwith(movies[userInput3], method="pearson")
                 correlatedMovies = pd.DataFrame(similarity, columns=["correlation"])
                 correlatedMovies = pd.merge(correlatedMovies, reviews, on="title")
                 correlatedMovies = pd.merge(correlatedMovies, titles, on="title")
@@ -51,7 +50,7 @@ if (st.sidebar.checkbox("Check me for the Movie Recommendation System")):
                 output = output[
                     ((output.title != userInput1) & (output.title != userInput2) & (output.title != userInput3))]
 
-                # Outputing the recommended movies in a user friendly format
+                # Outputting the recommended movies in a user friendly format
                 for index in range(0, 25):
                     st.markdown("")
                     st.markdown("#" + str(index + 1) + ". " + output.iloc[index]['title'])
@@ -60,10 +59,10 @@ if (st.sidebar.checkbox("Check me for the Movie Recommendation System")):
             except:
                 st.error("Uh oh, please try again! Your input format or movie release date may be incorrect.")
 
-# User doesn't select the checkbox indicating that he/she wants the track recommendation system
+# User doesn't select the checkbox indicating that he or she wants the track recommendation system
 else:
 
-    # Acessing Spotipy (a Spotify Library) to gather our data
+    # Acessing Spotipy (a Spotify Library) to gather our data from Spotify
     USERNAME = 'charles_shi12'
     SPOTIPY_CLIENT_ID = '80063f66798948fdba77036647d788d1'
     SPOTIPY_CLIENT_SECRET = 'b93e4d4ae5794eeb8e5b7a2104c2b745'
@@ -135,7 +134,7 @@ else:
         return playlist_dataFrame
 
 
-    # Returns an array of recommended songs using the most accurate machine learning model
+    # Returns an array of recommended songs using the most accurate machine learning classification model
     def song_recommendations(playlist):
         recommendations = []
         if (naive_score > SVM_score) and (naive_score > forest_score):
@@ -181,7 +180,7 @@ else:
                    "spotify:playlist:37i9dQZF1DX8tZsk68tuDw": "Dance Rising",
                    "spotify:playlist:37i9dQZF1DX2Nc3B70tvx0": "Ultimate Indie",
                    "spotify:playlist:37i9dQZF1DWUVpAXiEPK8P": "Power Workout",
-                   "spotify:playlist:37i9dQZF1DWWEJlAGA9gs0": "Classical Essentials"}
+                   "spotify:playlist:37i9dQZF1DX83I5je4W4rP": "Beach Vibes"}
     if (st.sidebar.checkbox("Do you want to use your own playlist? (Check the Box for Yes)")):
         option = st.sidebar.text_input('Enter the URI of Playlist You Want to Compare:')
     else:
