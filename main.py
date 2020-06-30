@@ -34,8 +34,9 @@ if (st.sidebar.checkbox("Check me for the Movie Recommendation System")):
 
                 # Computing Pearson Correlation Coefficients to find the most similar movies to the user movies input
                 similarity = movies.corrwith(movies[userInput1], method="pearson") + movies.corrwith(movies[userInput2],
-                                             method="pearson") + movies.corrwith(movies[userInput3], method="pearson")
-                #Combining DataFrames together
+                                                                                                     method="pearson") + movies.corrwith(
+                    movies[userInput3], method="pearson")
+                # Combining DataFrames together
                 correlatedMovies = pd.DataFrame(similarity, columns=["correlation"])
                 correlatedMovies = pd.merge(correlatedMovies, reviews, on="title")
                 correlatedMovies = pd.merge(correlatedMovies, titles, on="title")
@@ -54,7 +55,7 @@ if (st.sidebar.checkbox("Check me for the Movie Recommendation System")):
                     st.markdown(output.iloc[index]["genres"])
                     st.markdown("")
             except:
-                #Whenever an error occurs within the code
+                # Whenever an error occurs within the code
                 st.error("Uh oh, please try again! Your input format or movie release date may be incorrect.")
 
 # User doesn't select the checkbox indicating that he or she wants the music recommendation system
@@ -79,7 +80,7 @@ else:
             information = spty.track(song["track"]["id"])
             # Track's features
             features = spty.audio_features(song["track"]["id"])
-            #Collecting track features and track metainformation
+            # Collecting track features and track metainformation
             for meta in ["id", "name"]:
                 track_feature[meta] = song["track"][meta]
             for parameter in ["danceability", "energy", "loudness", "speechiness", "acousticness",
@@ -92,7 +93,7 @@ else:
             track_feature["url"] = information["album"]["images"][0]["url"]
             return track_feature
         else:
-            #Passes if the song doesn't have a track (happens to some songs occasionally)
+            # Passes if the song doesn't have a track (happens to some songs occasionally)
             pass
 
 
@@ -179,8 +180,8 @@ else:
     else:
         option = st.sidebar.selectbox("Select a Playlist for Our Algorithm to Search Through",
                                       options=list(comparision.keys()), format_func=func)
-        
-    #Cuts the "spotify:playlist:" part out of the user input
+
+    # Cuts the "spotify:playlist:" part out of the user input
     option = option[17:]
 
     # User clicks the "Recommend Songs!" button
@@ -202,7 +203,7 @@ else:
                     # Training algorithms based on the user's inputted playlists
                     x = sorted_playlist.drop(["id", "name", "artist", "popularity", "album", "url", "favorite"], axis=1)
                     y = sorted_playlist["favorite"]
-                    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=.15, random_state=100)
+                    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=.20, random_state=50)
                     scaler = StandardScaler()
                     x_train = scaler.fit_transform(x_train)
                     x_test = scaler.transform(x_test)
@@ -230,5 +231,5 @@ else:
                         st.error(
                             "Unfortunately, no songs were recommended from this playlist. Try again with different playlist!")
                 except:
-                    #Whenever an error occurs in this process
+                    # Whenever an error occurs in this process
                     st.error("Sorry! Please try again or try with a different playlist.")
