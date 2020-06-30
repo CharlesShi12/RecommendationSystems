@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn import svm
 import pandas as pd
 
-# Prompt users to select whether they want a movie or track recommendation system
+# Prompt users to select whether they want a movie or music recommendation system
 if (st.sidebar.checkbox("Check me for the Movie Recommendation System")):
 
     # User selects the checkbox to indicate that he or she wants the movie recommendation system
@@ -35,6 +35,7 @@ if (st.sidebar.checkbox("Check me for the Movie Recommendation System")):
                 # Computing Pearson Correlation Coefficients to find the most similar movies to the user movies input
                 similarity = movies.corrwith(movies[userInput1], method="pearson") + movies.corrwith(movies[userInput2],
                                              method="pearson") + movies.corrwith(movies[userInput3], method="pearson")
+                #Combining DataFrames together
                 correlatedMovies = pd.DataFrame(similarity, columns=["correlation"])
                 correlatedMovies = pd.merge(correlatedMovies, reviews, on="title")
                 correlatedMovies = pd.merge(correlatedMovies, titles, on="title")
@@ -53,12 +54,12 @@ if (st.sidebar.checkbox("Check me for the Movie Recommendation System")):
                     st.markdown(output.iloc[index]["genres"])
                     st.markdown("")
             except:
+                #Whenever an error occurs within the code
                 st.error("Uh oh, please try again! Your input format or movie release date may be incorrect.")
 
-# User doesn't select the checkbox indicating that he or she wants the track recommendation system
+# User doesn't select the checkbox indicating that he or she wants the music recommendation system
 else:
-
-    # Acessing Spotipy (a Spotify Library) to gather our data from Spotify
+    # Acessing Spotipy (a Spotify Library) to gather user data from Spotify
     USERNAME = 'charles_shi12'
     SPOTIPY_CLIENT_ID = '80063f66798948fdba77036647d788d1'
     SPOTIPY_CLIENT_SECRET = 'b93e4d4ae5794eeb8e5b7a2104c2b745'
@@ -78,6 +79,7 @@ else:
             information = spty.track(song["track"]["id"])
             # Track's features
             features = spty.audio_features(song["track"]["id"])
+            #Collecting track features and track metainformation
             for meta in ["id", "name"]:
                 track_feature[meta] = song["track"][meta]
             for parameter in ["danceability", "energy", "loudness", "speechiness", "acousticness",
@@ -90,6 +92,7 @@ else:
             track_feature["url"] = information["album"]["images"][0]["url"]
             return track_feature
         else:
+            #Passes if the song doesn't have a track (happens to some songs occasionally)
             pass
 
 
@@ -130,7 +133,7 @@ else:
         return playlist_dataFrame
 
 
-    # Returns an array of recommended songs using the most accurate machine learning classification model
+    # Returns an array of recommended songs using the SVM machine learning classification model
     def song_recommendations(playlist):
         recommendations = []
         method = svm.SVC()
@@ -169,12 +172,15 @@ else:
                    "spotify:playlist:37i9dQZF1DX8tZsk68tuDw": "Dance Rising",
                    "spotify:playlist:37i9dQZF1DX2Nc3B70tvx0": "Ultimate Indie",
                    "spotify:playlist:37i9dQZF1DX83I5je4W4rP": "Beach Vibes",
-                   "spotify:playlist:37i9dQZF1DWT5MrZnPU1zD": "Hip Hop Controller"}
+                   "spotify:playlist:37i9dQZF1DWT5MrZnPU1zD": "Hip Hop Controller",
+                   "spotify:playlist:37i9dQZF1DX4dyzvuaRJ0n": "Electronic Dance Music (EDM)"}
     if (st.sidebar.checkbox("Do you want to use your own playlist? (Check the Box for Yes)")):
         option = st.sidebar.text_input('Enter the URI of Playlist You Want to Compare:')
     else:
         option = st.sidebar.selectbox("Select a Playlist for Our Algorithm to Search Through",
                                       options=list(comparision.keys()), format_func=func)
+        
+    #Cuts the "spotify:playlist:" part out of the user input
     option = option[17:]
 
     # User clicks the "Recommend Songs!" button
@@ -188,9 +194,10 @@ else:
                     playlist = create_good_bad_playlist(goodplaylist, badplaylist)
                     sorted_playlist = pd.DataFrame(playlist,
                                                    columns=["id", "name", "artist", "popularity", "album", "url",
-                                                            "danceability", "energy", "loudness", "speechiness", 
-                                                            "acousticness", "instrumentalness", "liveness", 
-                                                            "valence", "tempo", "favorite"])
+                                                            "danceability", "energy", "loudness",
+                                                            "speechiness", "acousticness",
+                                                            "instrumentalness",
+                                                            "liveness", "valence", "tempo", "favorite"])
 
                     # Training algorithms based on the user's inputted playlists
                     x = sorted_playlist.drop(["id", "name", "artist", "popularity", "album", "url", "favorite"], axis=1)
@@ -204,8 +211,10 @@ else:
                     compare = create_playlist(option)
                     sorted_compare = pd.DataFrame(compare,
                                                   columns=["id", "name", "artist", "popularity", "album", "url",
-                                                           "danceability", "energy", "loudness", "speechiness",
-                                                           "acousticness", "instrumentalness", "liveness", "valence", "tempo"])
+                                                           "danceability",
+                                                           "energy", "loudness", "speechiness",
+                                                           "acousticness",
+                                                           "instrumentalness", "liveness", "valence", "tempo"])
                     recommendations = song_recommendations(sorted_compare)
 
                     # Returns the recommended songs in a readable format
@@ -221,4 +230,5 @@ else:
                         st.error(
                             "Unfortunately, no songs were recommended from this playlist. Try again with different playlist!")
                 except:
+                    #Whenever an error occurs in this process
                     st.error("Sorry! Please try again or try with a different playlist.")
