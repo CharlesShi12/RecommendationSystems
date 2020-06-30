@@ -6,10 +6,6 @@ from spotipy.oauth2 import SpotifyClientCredentials
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn import svm
-from sklearn.svm import SVC
-from sklearn.naive_bayes import GaussianNB
-from sklearn import neighbors
-from sklearn.metrics import accuracy_score
 import pandas as pd
 
 # Prompt users to select whether they want a movie or track recommendation system
@@ -84,7 +80,7 @@ else:
             features = spty.audio_features(song["track"]["id"])
             for meta in ["id", "name"]:
                 track_feature[meta] = song["track"][meta]
-            for parameter in ["danceability", "energy", "key", "loudness", "mode", "speechiness", "acousticness",
+            for parameter in ["danceability", "energy", "loudness", "speechiness", "acousticness",
                               "instrumentalness",
                               "liveness", "valence", "tempo"]:
                 track_feature[parameter] = features[0][parameter]
@@ -102,8 +98,8 @@ else:
         totalGood = spty.user_playlist_tracks("spotify", goodPlaylist)["items"]
         index = 0
         playlist_dataFrame = pd.DataFrame(
-            columns=["id", "name", "artist", "popularity", "album", "url", "danceability", "energy", "key", "loudness",
-                     "mode", "speechiness", "acousticness", "instrumentalness", "liveness", "valence", "tempo"])
+            columns=["id", "name", "artist", "popularity", "album", "url", "danceability", "energy", "loudness",
+                     "speechiness", "acousticness", "instrumentalness", "liveness", "valence", "tempo"])
         for song in totalGood:
             track_dataFrame = pd.DataFrame(get_data(song), index=[index])
             track_dataFrame["favorite"] = 1
@@ -124,8 +120,8 @@ else:
         total = spty.user_playlist_tracks("spotify", playlist)["items"]
         index = 0
         playlist_dataFrame = pd.DataFrame(
-            columns=["id", "name", "artist", "popularity", "album", "url", "danceability", "energy", "key", "loudness",
-                     "mode", "speechiness", "acousticness", "instrumentalness", "liveness", "valence", "tempo"])
+            columns=["id", "name", "artist", "popularity", "album", "url", "danceability", "energy", "loudness",
+                     "speechiness", "acousticness", "instrumentalness", "liveness", "valence", "tempo"])
         for song in total:
             track_dataFrame = pd.DataFrame(get_data(song), index=[index])
             playlist_dataFrame = playlist_dataFrame.append(track_dataFrame)
@@ -137,15 +133,8 @@ else:
     # Returns an array of recommended songs using the most accurate machine learning classification model
     def song_recommendations(playlist):
         recommendations = []
-        if (naive_score > SVM_score) and (naive_score > forest_score):
-            method = GaussianNB()
-            method.fit(x_train, y_train)
-        elif (neighbors_score > SVM_score) and (neighbors_score > naive_score):
-            method = neighbors.KNeighborsClassifier()
-            method.fit(x_train, y_train)
-        else:
-            method = svm.SVC()
-            method.fit(x_train, y_train)
+        method = svm.SVC()
+        method.fit(x_train, y_train)
         for index in range(0, len(playlist.index)):
             userInput = [playlist.iloc[index][6:].values]
             userInput = scaler.transform(userInput)
@@ -199,10 +188,9 @@ else:
                     playlist = create_good_bad_playlist(goodplaylist, badplaylist)
                     sorted_playlist = pd.DataFrame(playlist,
                                                    columns=["id", "name", "artist", "popularity", "album", "url",
-                                                            "danceability", "energy", "key", "loudness",
-                                                            "mode", "speechiness", "acousticness",
-                                                            "instrumentalness",
-                                                            "liveness", "valence", "tempo", "favorite"])
+                                                            "danceability", "energy", "loudness", "speechiness", 
+                                                            "acousticness", "instrumentalness", "liveness", 
+                                                            "valence", "tempo", "favorite"])
 
                     # Training algorithms based on the user's inputted playlists
                     x = sorted_playlist.drop(["id", "name", "artist", "popularity", "album", "url", "favorite"], axis=1)
@@ -212,32 +200,12 @@ else:
                     x_train = scaler.fit_transform(x_train)
                     x_test = scaler.transform(x_test)
 
-                    # Support Vector Classification Model
-                    support_vector = svm.SVC()
-                    support_vector.fit(x_train, y_train)
-                    vector_prediction = support_vector.predict(x_test)
-                    SVM_score = accuracy_score(y_test, vector_prediction)
-
-                    # Naive Bayes Classification Model
-                    naive_bayes = GaussianNB()
-                    naive_bayes.fit(x_train, y_train)
-                    bayes_prediction = naive_bayes.predict(x_test)
-                    naive_score = accuracy_score(y_test, bayes_prediction)
-
-                    # K Nearest Neighbors Classification Model
-                    nearest_neighbors = neighbors.KNeighborsClassifier()
-                    nearest_neighbors.fit(x_train, y_train)
-                    neighbors_prediction = nearest_neighbors.predict(x_test)
-                    neighbors_score = accuracy_score(y_test, neighbors_prediction)
-
                     # Creating the recommended songs
                     compare = create_playlist(option)
                     sorted_compare = pd.DataFrame(compare,
                                                   columns=["id", "name", "artist", "popularity", "album", "url",
-                                                           "danceability",
-                                                           "energy", "key", "loudness", "mode", "speechiness",
-                                                           "acousticness",
-                                                           "instrumentalness", "liveness", "valence", "tempo"])
+                                                           "danceability", "energy", "loudness", "speechiness",
+                                                           "acousticness", "instrumentalness", "liveness", "valence", "tempo"])
                     recommendations = song_recommendations(sorted_compare)
 
                     # Returns the recommended songs in a readable format
