@@ -10,7 +10,7 @@ This recommendation system builds on collaborative filtering and statistical ana
 
 Ultimately, all of the data, machine learning models, and algorithms within the music and movie recommendation systems were programmed into an interactive web application via streamlit. 
 
-# Demontration
+# Demonstration
 
 
 # Future Improvements
