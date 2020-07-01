@@ -55,7 +55,7 @@ if (st.sidebar.checkbox("Check me for the Movie Recommendation System")):
                     st.markdown(output.iloc[index]["genres"])
                     st.markdown("")
             except:
-                # Whenever an error occurs within the code
+                # Executes whenever an error occurs within the function
                 st.error("Uh oh, please try again! Your input format or movie release date may be incorrect.")
 
 # User doesn't select the checkbox indicating that he or she wants the music recommendation system
@@ -181,7 +181,7 @@ else:
         option = st.sidebar.selectbox("Select a Playlist for Our Algorithm to Search Through",
                                       options=list(comparision.keys()), format_func=func)
 
-    # Cuts the "spotify:playlist:" part out of the user input
+    # Cuts the "spotify:playlist:" out of the user input
     option = option[17:]
 
     # User clicks the "Recommend Songs!" button
@@ -192,6 +192,7 @@ else:
                 st.error("Please Choose a Playlist to Search Through")
             else:
                 try:
+                    # Creates playlist DataFrame with songs that are identified as like or dislike from the user input
                     playlist = create_good_bad_playlist(goodplaylist, badplaylist)
                     sorted_playlist = pd.DataFrame(playlist,
                                                    columns=["id", "name", "artist", "popularity", "album", "url",
@@ -236,5 +237,5 @@ else:
                         "This algorithm suggested " + str(len(recommendations)) + " out of " + str(len(sorted_compare))
                         + " or " + str(round(len(recommendations)/len(sorted_compare) * 100)) + "% of songs from this playlist!")
                 except:
-                    # Whenever an error occurs in this process
+                    # Executes whenever an error occurs in the function
                     st.error("Sorry! Please try again or try with a different playlist.")
