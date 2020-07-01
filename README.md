@@ -1,5 +1,5 @@
 # Recommendation Systems using Python
-This project explores the concepts and algorithms used to create accurate recommendation systems based on user preference: machine learning for the music recommendation system and data analysis for the movie recommendation system. The goal of this project was to combine my skills in computer/data science with interests or hobbies of mine (ex. watching movies and listening to music). Keep in mind, for the song recommendation program to work well, make sure to have two Spotify playlists of at least fifty songs (one playlist with songs you like and one with songs you dislike).
+This project explores the concepts and algorithms used to create accurate recommendation systems based on user preference: supervised machine learning for the music recommendation system and data analysis for the movie recommendation system. The goal of this project was to combine my skills in computer/data science with interests or hobbies of mine (ex. watching movies and listening to music). Keep in mind, for the song recommendation program to work well, make sure to have two Spotify playlists of at least fifty songs (one playlist with songs you like and one with songs you dislike).
 
 # General Techincal Description
 Music Recommendation System: 
