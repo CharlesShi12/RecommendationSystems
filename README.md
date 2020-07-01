@@ -11,7 +11,11 @@ This recommendation system builds on collaborative filtering and statistical ana
 Ultimately, all of the data, machine learning models, and algorithms within the music and movie recommendation systems were programmed into an interactive web application via streamlit. 
 
 # Demonstration
+For the music recommendation system, I will be using https://open.spotify.com/playlist/7glc712oqMnuatn8fN2Mti?si=6R05rroLTPCiW6r_nIGY0A for the playlist with songs I like and https://open.spotify.com/playlist/0yoXH0JfXkhqL8tAdM05WC?si=zE6cbftZSY2GMn9nL2mayw for the playlist with songs I dislike. The playlist I like mainly consists of hip-hop and electronic dance music with some other music genres scattered throughout the playlist. The playlist I dislike consists of mostly country and rock. For the movie recommendation system, I used Inception (2010), Interstellar (2014), and Arrival (2016) as my most favorite movies. 
 
+A video showing the features of my recommendation system is linked here: https://drive.google.com/file/d/14UY9L_s3pepVoWZe3ngmfQiCNzEQUQdl/view?usp=sharing
+
+Some observations I can make after watching the video is that everything made sense in terms of recommending songs or movies. For instance, when I chose to search through Global Top 50, the recommendation system recommended 60% of the songs from that playlist. Since Global Top 50 mostly consists of hip-hop, it would make sense for the algorithm to suggest a lot of songs from this playlist because the playlist I liked also had a lot of hip-hop/rap songs. Additionally, when I chose to search through Hot Country, the algorithm only suggested 16% of the songs from that playlist. Makes sense since I inputted a country-heavy playlist for my dislike playlist. In terms of movie recommending, the system seemed to recommend a good amount of Sci-Fi/Thriller/Action movies which also makes sense since the movies I inputted were all Sci-Fi/Thriller/Action movies; people who highly rate one Sci-Fi/Thriller/Action movie will also most likely rate another Sci-Fi/Thriller/Action movie highly. 
 
 # Future Improvements
 Music Recommendation System: 
@@ -19,3 +23,6 @@ This type of recommendation system isn't the best for practicality. For instance
 
 Movie Recommendation System: 
 Even though I only inputted sci-fi and action-adventure movies, I noticed there were a couple of comedy and romance movies that this movie recommendation system suggested for me. Sci-fi and action-adventure seem to be the opposite of comedy and romance, so I could perhaps add a function where I look at the genres of each movie and recommend movies that are closely related to sci-fi and action-adventure. This could be done by splitting the types of genres in the 'genres' column of my DataFrame and putting those genres in an array (ex. [‘Drama’, ‘Mystery’, ‘War’]). Then you could loop through each movie’s genres array and keep the sci-fi genres, action-adventure genres, and genres that are related to either sci-fi or action-adventure. I could also use other ways to build recommendation systems such as cosine similarity. 
+
+# What I Learned
+During this project, I was challenged in many aspects which resulted in me learning a lot from this project. I learned the concepts and pros/cons of several machine learning classification models (Linear Regression, SVM, Naive Bayes). I learned the type of methods used behind recommendation systems: Collaborative Filtering (user-user and item-item) vs. Content-Based Filtering. I learned some ways to compute correlation (Pearson/Kendall Tau/Spearman Correlation Coefficient). Last but not least, I learned how to use multiple Python libraries (spotipy, pandas, sklearn, streamlit).
