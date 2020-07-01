@@ -11,6 +11,8 @@ This recommendation system builds on collaborative filtering and statistical ana
 Ultimately, all of the data, machine learning models, and algorithms within the music and movie recommendation systems were programmed into an interactive web application via streamlit. 
 
 # Demonstration
+As of July 2020, these are the results I am getting from my recommendation system. However, it could be much different some time later. For instance, the Global Top 50 playist is constantly updated by Spotify so the Global Top 50 playlist I am using right now for the demonstration could be much different than the Global Top 50 playlist later on in the future. Just keep this in mind. 
+
 For the music recommendation system, I will be using https://open.spotify.com/playlist/7glc712oqMnuatn8fN2Mti?si=6R05rroLTPCiW6r_nIGY0A for the playlist with songs I like and https://open.spotify.com/playlist/0yoXH0JfXkhqL8tAdM05WC?si=zE6cbftZSY2GMn9nL2mayw for the playlist with songs I dislike. The playlist I like primarily consists of hip-hop and electronic dance music (EDM) with some other music genres scattered throughout the playlist. The playlist I dislike consists of mostly country and rock. For the movie recommendation system, I used Inception (2010), Interstellar (2014), and Arrival (2016) as my most favorite movies. 
 
 A video showing the features of my recommendation system is linked here: https://drive.google.com/file/d/14UY9L_s3pepVoWZe3ngmfQiCNzEQUQdl/view?usp=sharing
