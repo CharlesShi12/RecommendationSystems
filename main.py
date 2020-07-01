@@ -5,6 +5,7 @@ import spotipy.util as util
 from spotipy.oauth2 import SpotifyClientCredentials
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score
 from sklearn import svm
 import pandas as pd
 
@@ -208,6 +209,13 @@ else:
                     scaler = StandardScaler()
                     x_train = scaler.fit_transform(x_train)
                     x_test = scaler.transform(x_test)
+
+                    # Calculating the accuracy score of SVM
+                    support_vector = svm.SVC()
+                    support_vector.fit(x_train, y_train)
+                    vector_prediction = support_vector.predict(x_test)
+                    SVM_score = accuracy_score(y_test, vector_prediction)
+                    print(SVM_score)
 
                     # Creating the recommended songs
                     compare = create_playlist(option)
