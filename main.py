@@ -230,9 +230,11 @@ else:
                     if (len(recommendations) == 0):
                         st.error(
                             "Unfortunately, no songs were recommended from this playlist. Try again with different playlist!")
-                        
-                    st.markdown("This algorithm suggested " + str(len(recommendations)) + " out of " + str(len(sorted_compare))
-                                + " songs from this playlist!")
+
+                    # Returns the number (and percentage) of songs recommended to the user in a certain playlist
+                    st.markdown(
+                        "This algorithm suggested " + str(len(recommendations)) + " out of " + str(len(sorted_compare))
+                        + " or " + str(round(len(recommendations)/len(sorted_compare) * 100)) + "% of songs from this playlist!")
                 except:
                     # Whenever an error occurs in this process
                     st.error("Sorry! Please try again or try with a different playlist.")
