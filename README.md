@@ -1,7 +1,7 @@
-# Recommendation Systems using Python
+## Recommendation Systems using Python
 This project explores the concepts and algorithms used to create accurate recommendation systems based on user preference: supervised machine learning for the music recommendation system and data analysis for the movie recommendation system. The goal of this project was to combine my skills in computer/data science with interests and hobbies of mine (ex. watching movies and listening to music). Keep in mind, for the song recommendation program to work well, make sure to have two Spotify playlists of at least seventy songs in each of them (one playlist with songs you like and one with songs you dislike).
 
-# General Technical Description
+## General Technical Description
 ### Music Recommendation System: 
 This recommendation system builds on a machine learning classification model that is trained with user inputted data and can identify whether a song is liked or disliked based on the user's past preferences. Songs that users like are labeled as "1" and songs that users dislike are labeled as "0" in the 'favorite' column (also known as binary classification). Data gathering was done via spotipy. Data processing was done via pandas. Training and using machine learning classification models was done via sklearn. The machine learning model I used in this project was a machine learning classification model called Support Vector Machines. Support Vector Machines usually work well with smaller datasets that have some features which is evident in our case. Essentially, this is a form of content-based filtering where the algorithm classifies whether a song is good or bad based on how similar it is to the user's inputted playlists of liked and disliked songs. 
 
@@ -10,7 +10,7 @@ This recommendation system builds on collaborative filtering and statistical ana
 
 Ultimately, all of the data, machine learning models, and algorithms within the music and movie recommendation systems were programmed into an interactive web application via streamlit. 
 
-# Demonstration
+## Demonstration
 As of July 2020, these are the recommendations I am getting from my recommendation system. However, these recommendations could be much different sometime later. For instance, the Global Top 50 playlist is constantly updated by Spotify so the Global Top 50 playlist I am using right now for the demonstration could be much different than the Global Top 50 playlist later on in the future. Just keep this in mind. 
 
 For the music recommendation system, I will be using https://open.spotify.com/playlist/7glc712oqMnuatn8fN2Mti?si=6R05rroLTPCiW6r_nIGY0A for the playlist with songs I like and https://open.spotify.com/playlist/0yoXH0JfXkhqL8tAdM05WC?si=zE6cbftZSY2GMn9nL2mayw for the playlist with songs I dislike. The playlist I like primarily consists of hip-hop and electronic dance music (EDM) with some other music genres scattered throughout the playlist. The playlist I dislike consists of mostly country and rock. For the movie recommendation system, I used Inception (2010), Interstellar (2014), and Arrival (2016) as my most favorite movies. 
@@ -24,7 +24,7 @@ I calculated the average accuracy score for my machine learning model using vari
 ### Final Oberservations:
 Some observations I can make after watching the video is that everything made sense in terms of recommending songs or movies. For example, when I chose to search through Global Top 50, the recommendation system recommended 60% of the songs from that playlist. Since Global Top 50 mostly consists of hip-hop, it would make sense for the algorithm to suggest a lot of songs from this playlist because the inputted playlist I liked also had a lot of hip-hop/rap songs. Furthermore, when I chose to search through Hot Country, the algorithm only suggested 16% of the songs from that playlist. Also, I noticed that two of the songs that this algorithm suggested were from Diplo who is popular for his EDM music so the percentage could be even lower than 16% for the Hot Country playlist. Nevertheless, this makes sense since I inputted a country-heavy playlist for my dislike playlist. In terms of movie recommending, the system seemed to recommend a good amount of Sci-Fi/Thriller/Action movies which also makes sense since the movies I inputted were all Sci-Fi/Thriller/Action movies; people who highly rate one Sci-Fi/Thriller/Action movie will most likely rate another Sci-Fi/Thriller/Action movie highly. 
 
-# Future Improvements
+## Future Improvements
 ### Music Recommendation System: 
 This type of recommendation system isn't the best for practicality. For instance, not that many people will have playlists with over seventy songs they dislike. It may very inconvenient for users. Therefore, I could use other alternative methods of recommending songs for people such as collaborative filtering, however, from a learning perspective, this project taught me a lot. 
 
@@ -33,5 +33,5 @@ Even though I only inputted sci-fi and action-adventure movies, I noticed there 
 
 Finally, I could find more accurate ways to test my recommendation systems and measure their performance. 
 
-# What I Learned
+## What I Learned
 During this project, I was challenged in many aspects which resulted in me learning a lot from this project. I learned the concepts and pros/cons of several machine learning classification models (Linear Regression, SVM, Naive Bayes, etc). I learned the type of methods used behind recommendation systems: Collaborative Filtering (user-user and item-item) vs. Content-Based Filtering. Moreover, I learned some ways to compute correlation (Pearson/Kendall Tau/Spearman Correlation Coefficient). Last but not least, I learned how to use multiple Python libraries (spotipy, pandas, sklearn, streamlit).
