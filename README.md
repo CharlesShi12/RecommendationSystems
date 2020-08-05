@@ -1,6 +1,15 @@
 ## Recommendation Systems using Python
 This project explores the concepts and algorithms used to create accurate recommendation systems based on user preference: supervised machine learning for the music recommendation system and data analysis for the movie recommendation system. The goal of this project was to combine my skills in computer/data science with interests and hobbies of mine (ex. watching movies and listening to music). Keep in mind, for the song recommendation program to work well, make sure to have two Spotify playlists of at least seventy songs in each of them (one playlist with songs you like and one with songs you dislike).
 
+To dupulicate and/or interact with this project:
+```
+git clone https://github.com/CharlesShi12/RecommendationSystems.git
+```
+Import the folder into your respected IDE. Open your terminal, navigate to this github repository folder and run the following command:
+```
+streamlit run main.py
+```
+
 ## General Technical Description
 #### Music Recommendation System: 
 This recommendation system builds on a machine learning classification model that is trained with user inputted data and can identify whether a song is liked or disliked based on the user's past preferences. Songs that users like are labeled as "1" and songs that users dislike are labeled as "0" in the 'favorite' column (also known as binary classification). Data gathering was done via spotipy. Data processing was done via pandas. Training and using machine learning classification models was done via sklearn. The machine learning model I used in this project was a machine learning classification model called Support Vector Machines. Support Vector Machines usually work well with smaller datasets that have some features which is evident in our case. Essentially, this is a form of content-based filtering where the algorithm classifies whether a song is good or bad based on how similar it is to the user's inputted playlists of liked and disliked songs. 
