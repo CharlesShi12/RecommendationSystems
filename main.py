@@ -215,7 +215,6 @@ else:
                     support_vector.fit(x_train, y_train)
                     vector_prediction = support_vector.predict(x_test)
                     SVM_score = accuracy_score(y_test, vector_prediction)
-                    print(SVM_score)
 
                     # Creating the recommended songs
                     compare = create_playlist(option)
