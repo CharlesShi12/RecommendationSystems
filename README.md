@@ -4,7 +4,7 @@ This project explores the concepts and algorithms used to create accurate recomm
 ## Motivation
 The goal of this project was to combine my skills in computer/data science with interests and hobbies of mine (ex. watching movies and listening to music). Keep in mind, for the song recommendation program to work well, make sure to have two Spotify playlists of at least seventy songs in each of them (one playlist with songs you like and one with songs you dislike).
 
-#### To dupulicate and/or interact with this project:
+## Installation
 Run this command in your terminal: 
 ```
 git clone https://github.com/CharlesShi12/RecommendationSystems.git
