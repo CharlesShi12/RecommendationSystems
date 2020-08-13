@@ -14,6 +14,7 @@ Install the necessary libraries/frameworks:
 * Streamlit
 * Sklearn
 * Spotipy
+* Pandas
 
 Open your terminal, navigate to this github repository folder and run the following command:
 ```
