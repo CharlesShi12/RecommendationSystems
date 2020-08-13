@@ -9,7 +9,12 @@ Run this command in your terminal:
 ```
 git clone https://github.com/CharlesShi12/RecommendationSystems.git
 ```
-Import the folder into your respected IDE. Open your terminal, navigate to this github repository folder and run the following command:
+Import the folder into your respected IDE. 
+Install the necessary libraries/frameworks:
+* Streamlit
+* Sklearn
+* Spotipy
+Open your terminal, navigate to this github repository folder and run the following command:
 ```
 streamlit run main.py
 ```
