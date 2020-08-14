@@ -52,3 +52,6 @@ This type of recommendation system isn't the best for practicality. For instance
 Even though I only inputted sci-fi and action-adventure movies, I noticed there were a couple of comedy and romance movies that this movie recommendation system suggested for me. Sci-fi and action-adventure seem to be the opposite of comedy and romance, so I could perhaps add a function where I look at the genres of each movie and recommend movies that are closely related to sci-fi and action-adventure. This could be done by splitting the types of genres in the 'genres' column of my DataFrame and putting those genres in an array (ex. [‘Drama’, ‘Mystery’, ‘War’]). Then you could loop through each movie’s genres array and keep the sci-fi genres, action-adventure genres, and genres that are related to either sci-fi or action-adventure. I could also use other ways to build recommendation systems such as cosine similarity. 
 
 Finally, I could find more accurate ways to test my recommendation systems and measure their performance. 
+
+## License
+MIT © Charles Shi
