@@ -28,10 +28,10 @@ This recommendation system builds on a machine learning classification model tha
 #### Movie Recommendation System: 
 This recommendation system builds on collaborative filtering and statistical analysis. Using two downloaded datasets from MovieLens, the algorithm will look for movies that have the most correlation based on user reviews. For example, if user A likes movies 1 and 2 and user B likes movies 1 and 3, then we can predict that user A will like movie 3 because of user A and user B's shared past preferences. This type of predicting becomes increasingly more accurate with bigger datasets. We can compute the correlation between movies using the Pearson Correlation Coefficient. Data gathering was done via MovieLens. Data processing was done via pandas. Data analysis was done also via pandas.
 
-#### License
-MIT © Charles Shi
-
-Ultimately, all of the data, machine learning models, and algorithms within the music and movie recommendation systems were programmed into an interactive web application via streamlit. 
+#### Features
+* Users can enter the URI of playlists they want to use
+* Users can chose whether they want a song or movie recommendation system 
+* Recommendation system outputs the suggested songs/movies in a user-friendly format
 
 ## Demonstration
 As of July 2020, these are the recommendations I am getting from my recommendation system. However, these recommendations could be much different sometime later. For instance, the Global Top 50 playlist is constantly updated by Spotify so the Global Top 50 playlist I am using right now for the demonstration could be much different than the Global Top 50 playlist later on in the future. Just keep this in mind. 
