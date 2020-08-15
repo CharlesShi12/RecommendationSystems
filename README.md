@@ -40,7 +40,7 @@ As of July 2020, these are the recommendations I am getting from my recommendati
 For the music recommendation system, I will be using https://open.spotify.com/playlist/7glc712oqMnuatn8fN2Mti?si=6R05rroLTPCiW6r_nIGY0A for the playlist with songs I like and https://open.spotify.com/playlist/0yoXH0JfXkhqL8tAdM05WC?si=zE6cbftZSY2GMn9nL2mayw for the playlist with songs I dislike. The playlist I like primarily consists of hip-hop and electronic dance music (EDM) with some other music genres scattered throughout the playlist. The playlist I dislike consists of mostly country and rock. For the movie recommendation system, I used Inception (2010), Interstellar (2014), and Arrival (2016) as my most favorite movies. 
 
 #### Video Demonstration:
-A video showing the features of my recommendation system is linked here: https://drive.google.com/file/d/14UY9L_s3pepVoWZe3ngmfQiCNzEQUQdl/view?usp=sharing. The machine learning model's accuracy score for these two playlists was 82%. 
+A video showing the features of my recommendation system is linked here: https://youtu.be/IY_kjgOrz5w. The machine learning model's accuracy score for these two playlists was 82%. 
 
 #### Testing Demonstration: 
 I calculated the average accuracy score for my machine learning model using various combinations of inputted playlists. After training and testing my machine learning model, the final average accuracy score was around 86%. The accuracy score is calculated by (number of points classified correctly) / (total number of points in your test set). The full Google Sheets spreadsheet is linked here: https://docs.google.com/spreadsheets/d/1qKlvqCxxP1JYaF8HTBFM1zw1QECT4n2-pvl3dBN-w-o/edit?usp=sharing. 
